@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <title>A SPA Template</title>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script>
+        // Help function that shows page p and hides all other pages
+        function showPage(p) {
+            // Step 1 - Hide all pages
+            pageArr = document.getElementsByClassName("page");
+            for (let i = 0; i < pageArr.length; i++) {
+                let page = pageArr[i];
+                page.style.display = "none";
+            }
+            // Step 2 - Show the selected page
+            document.getElementById("page" + p).style.display = "block";
+        }
+    </script>
+    <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+      
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Acme&display=swap');
+        body{
+            font-family: 'Roboto', sans-serif;
+            background: darkgray;
+        }
+        .text{
+            background: #dddddd;
+            padding: 10px;
+            margin: 10px;
+            box-shadow: 0px 0px 5px 5px #444444;
+            font-size: 18px;
+            font-family: 'Acme', sans-serif;
+
+        }
+        #face1{
+            width: 200px;
+            display: block;
+            margin: 10px auto;
+        }
+        .piccol{
+            background: black;
+            padding: 15px 5px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        .figure1{
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            position: relative;
+        }
+        .figure2{
+            margin-left: auto;
+            margin-right: auto;
+            width: 360px;
+            position: relative;
+        }
+        .figure-caption{
+            max-width: auto;
+            color: white;
+            display: block;
+            position: absolute;
+            bottom: 0px;
+            padding: 5px;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+        }
+        .figure-caption2{
+            width: auto;
+            color: white;
+            display: block;
+            position: absolute;
+            top: 0px;
+            padding: 5px;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+        }
+        .figpan{
+            width: 100%;
+        }
+        .quote{
+            font-style: italic;
+            color: white;
+        }
+        .quotestyle{
+            background: black;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        .title{
+            background: #191970;
+            color: white;
+            font-size: 24px;
+            padding: 5px;
+        }
+        #carouselExampleIndicators{
+            max-width: 575.98px;
+            margin: 10px auto;
+        }
+        .knapp{
+            margin: 10px;
+        }
+        .card{
+            margin: 10px;
+        }
+        .formstyle{
+            margin: 10px;
+            width: 575.98px;
+            background: black;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .with-ellipsis{
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap;
+            margin:10px;
+            padding:20px 10px;
+            border-radius: 4px;
+            box-shadow:4px 4px 8px #000;
+            background: #dddddd;
+        }
+    
+        .no-ellipsis{
+            overflow: initial; 
+            text-overflow:initial; 
+            white-space: initial;
+            margin:10px;
+            padding:20px 10px;
+            border-radius: 4px;
+            box-shadow:4px 4px 8px #000;
+            background: #dddddd;
+        }
+        .tooltipAnchor {
+            position:absolute;
+            border: 1px black;
+            background-color: #def;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 3px;
+        }
+    
+        .tooltip {
+            position:absolute;
+            bottom:20px;
+            left:0px;
+            width:200px;
+            height:100px;
+            background-color: black;
+            color:white;
+            border-radius:5px;
+            opacity:0;
+            overflow: hidden;
+            padding:5px;
+            font-size: 16px;
+        }
+        #outer-container{
+            position:relative;
+            width: 100%;
+            top:0%;
+            left:0%;
+            right:50%;
+            bottom:50%;
+            overflow:hidden;
+            width: 360px;
+            margin: 5px auto;
+        }
+        
+        #container2{
+            border:1px solid black;
+            width:100%;
+            height:100%;
+            background-color:#bbb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        #port1{
+            background: white;
+            left:0%;
+            display:block
+        }
+        #dialog1{
+            background: lightgreen;
+        }
+        #dialog2{
+            background: red;
+        }
+
+        .port{
+            position:relative;
+            width:100%;
+            height:100%;
+            z-index:500;
+            display:none
+        }   
+        
+        .dialog-container{
+            display:flex;
+            justify-content:flex-end;
+            flex-wrap:nowrap;
+            align-items:center;
+            position:relative;
+
+        }
+        .menu-container{
+            display:flex;
+            justify-content:space-between;
+            flex-wrap:nowrap;
+            align-items:center;
+            position:relative;
+        }
+        .button{
+            padding:10px;
+            width:50px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            border: 2px solid black;
+            border-radius:5px;
+            margin:5px;
+            padding: 5px;
+            white-space:nowrap;
+        }
+        .dialog{
+            width: 100%;
+            max-width:100%;
+            height:200px;
+            max-height:70%;
+            display:none;
+            position:relative;
+        }
+        #swipe-page1{
+            opacity:1;
+            z-index:300;
+        }
+ 
+    .swipe-page{
+        position:absolute;
+        left:0%;
+        width:100%;
+        z-index:200;
+        opacity:1; 
+        margin-top: 10px;
+        }  
+ 
+  
+ 
+    .clicker{
+        position:absolute;
+        left:0px;
+        width:100%;
+        top:50%;
+        height:30%;
+        z-index:600;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        }
+ 
+    .leftclicker{font-size:160px;}
+ 
+    .rightclicker{font-size:160px;}
+ 
+ 
+ 
+    @keyframes in {0% { opacity: 0; z-index:200; } 100% { opacity: 1; z-index:300; } }    
+ 
+    @keyframes out {0% { opacity: 1; z-index:300; } 100% { opacity: 0; z-index:200; } }    
+    </style>
+    <script>
+    function tap(event){
+        if(event.target.className=="with-ellipsis"){
+            event.target.className="no-ellipsis";
+        }
+        else{
+            event.target.className="with-ellipsis"; 
+        }
+    }
+    function init(){
+        var toucharea = document.getElementById("rodarummetelip");      
+        toucharea.className="with-ellipsis";
+        var mc = new Hammer(toucharea);
+        mc.on("doubletap", function (event){tap(event)}); 
+
+      var element = document.getElementById("pressElement");
+      var hammertime = Hammer(element);
+      hammertime.on("press", function(event) {
+        document.getElementById("tooltip").style.opacity="1";
+      });    
+      hammertime.on("pressup", function(event) {
+        document.getElementById("tooltip").style.opacity="0";
+      });    
+    }
+      var numberOfSwipePages = 4;
+ 
+    var swipePage = 1;
+ 
+ 
+ 
+    function showSwipePage(newSwipePage) {
+ 
+      document.getElementById('swipe-page' + swipePage).style.animation = "out 1s ease-in-out 0s 1 forwards";
+ 
+      document.getElementById('swipe-page' + newSwipePage).style.animation = "in 1s ease-in-out 0s 1 forwards";
+ 
+      swipePage = newSwipePage;
+ 
+    }
+ 
+ 
+ 
+    function swipe(direction) {
+ 
+      var newSwipePage = swipePage + direction;
+ 
+ 
+ 
+      // if we swipe beyond the first page, we go to last page instead.
+ 
+      if (newSwipePage == 0) {
+ 
+        newSwipePage = numberOfSwipePages;
+ 
+      }
+ 
+      // if we swipe beyond the last page, we go to first page instead.
+ 
+      else if (newSwipePage > numberOfSwipePages) {
+ 
+        newSwipePage = 1;
+ 
+      }
+ 
+ 
+ 
+      showSwipePage(newSwipePage);
+ 
+    }
+ 
+        function panend(deltaX){
+            document.getElementById('port1').style.display="none";
+            document.getElementById('dialog1').style.display="none";                  
+            document.getElementById('dialog2').style.display="none";
+ 
+            if(deltaX>100){
+                document.getElementById('dialog1').style.display="block";
+            }else if(deltaX<-100){
+                document.getElementById('dialog2').style.display="block";                  
+            }else{
+                document.getElementById('port1').style.display="block";                
+                document.getElementById("port1").style.left="0px";
+            }
+        }
+ 
+        function pan(deltaX)
+        {
+            console.log(deltaX);
+            document.getElementById('port1').style.display="block";
+            document.getElementById('dialog1').style.display="none";                  
+            document.getElementById('dialog2').style.display="none";
+            document.getElementById('port1').style.left=deltaX+"px";
+        }
+ 
+ 
+    function initHammer() {
+ 
+      var element = document.getElementById("container");
+ 
+      var hammertime = Hammer(element);
+ 
+      hammertime.on("swiperight", function (event) { swipe(-1); });
+ 
+      hammertime.on("swipeleft", function (event) { swipe(1); });
+        
+       var element = document.getElementById("container2");
+            var hammertime = Hammer(element);
+ 
+            hammertime.on("panright", function(event) { pan(event.deltaX); });    
+            hammertime.on("panleft", function(event) { pan(event.deltaX); });    
+            hammertime.on("panend", function(event) { panend(event.deltaX); })
+ 
+    }
+     
+    
+    </script>
+</head>
+  <body onload="showPage(1); init(); initHammer();">
+    <div id="page1" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(9);">Om StrindbergAppen</button>
+        </form>
+    </nav>
+        <img src="face_1dppx.jpg" id="face1"/>
+        <div class="container-fluid">
+            <div class="quotestyle">
+                <div class="row">
+                    <div class="quote col-sm-3 col-md-6 col-lg-9">
+                    <blockquote class="blockquote text-center">
+                        <p class="mb-0">
+                        "Emellertid fortsatte köksan sitt arbete med
+                        innanfönstren, och inom några minuter hade dörren från
+                        källarsalen till verandan blivit öppnad och ut i
+                        trädgården trädde en ung herre, enkelt men fint klädd."
+                        </p>
+                        <footer class="blockquote-footer">August Strindberg<cite title="Source Title"> Röda Rummet</cite></footer>
+                    </blockquote>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="knapp col-sm-3 col-md-6 col-lg-9">
+                        <button type="button" class="btn btn-info" onclick="showPage(3)">Röda Rummet</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="knapp col-sm-3 col-md-6 col-lg-9"> 
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Text om Strindberg
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Text om Strindberg</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Strindberg tog studentexamen vid privatläroverket Stockholms lyceum 1867. Efter
+                                    avslutad skolgång började han på Uppsala universitet men slutade efter bara en
+                                    halv termin eftersom han vantrivdes och hade ont om pengar.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <div class="row">
+                    <div class="text col-sm-3 col-md-6 col-lg-9">
+                        <p>
+                        Johan August Strindberg föddes i Sundhetskollegiets hus på Riddarholmen i
+                        Stockholm den 22 januari 1849. Strindberg var det tredje barnet av åtta i sin
+                        faders första äktenskap. Efter det rivna födelsehuset har Strindberg döpt
+                        pjäsen Brända Tomten. År 1851 flyttade familjen till Klarakvarteren och 1856
+                        till Norrtullsgatan 14.
+                        </p>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="text col-sm-3 col-md-6 col-lg-9">
+                        <p>
+                        Strindbergs far Carl Oscar Strindberg var ångbåtskommissionär och ansvarig för
+                        godstrafiken på Mälaren och Göta kanal. Modern Eleonora Ulrika Norling var före
+                        detta värdshusflicka, som hade arbetat på Liljeholmens värdshus. Före
+                        giftermålet arbetade hon som hushållerska åt Carl Oscar, därav titeln
+                        Tjänstekvinnans son, men hemmet var inte så proletärt som Strindberg ville få
+                        det att framstå. Carl Oscar gifte sig med henne 1847. Hennes fromhet hade stark
+                        påverkan på författaren. Strindbergs faster Lisette Strindberg var gift med
+                        ångbåtspionjären Samuel Owen.
+                        </p>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="text col-sm-3 col-md-6 col-lg-9">
+                        <p>
+                        Som barn var Strindberg lugn och tystlåten. Fadern var sträng och Strindberg
+                        växte upp i ett hem som präglades av disciplin, gudfruktighet och kulturellt
+                        intresse. Under barndomen ägnade han sig åt läsning, naturvetenskapliga studier
+                        och blomsterodling. År 1856 började han på Klara skola. Den 30 december 1861
+                        skrev Strindberg ett brev om vännen Flodcrantz som gick igenom isen på
+                        Brunnsviken och drunknade. Natten mellan 19 och 20 mars 1862 avled modern och
+                        Strindberg skrev ett brev om det till sin bror Oscar den 22 mars. Strindberg
+                        hade ett dåligt förhållande till sin fader, vilket försämrades ytterligare
+                        efter moderns död. Året efter gifte fadern om sig med den trettio år yngre
+                        Emilia Charlotta Peterson som var familjens tjugotvååriga husmamsell
+                        (hushållerska) och som Strindberg kom att avsky. I efterhand har dock bilden
+                        av Emilia ändrats. Hon fyllde väl rollen som styvmamma framförallt för Augusts
+                        systrar.
+                        </p>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="text col-sm-3 col-md-6 col-lg-9">
+                        <p>
+                        Strindberg tog studentexamen vid privatläroverket Stockholms lyceum 1867. Efter
+                        avslutad skolgång började han på Uppsala universitet men slutade efter bara en
+                        halv termin eftersom han vantrivdes och hade ont om pengar. Därefter försörjde
+                        han sig en tid som folkskollärare och därefter informator samtidigt som han
+                        studerade till läkare. Han försökte sig därefter på att bli skådespelare och
+                        blev statist vid Dramatiska teatern, men bestämde sig 1870 för att återvända
+                        till Uppsala. Det var under studietiden där som Strindberg påbörjade sitt
+                        författarskap.
+                        </p>
+                    </div>
+                    </div>
+        </div>
+        </div>
+    <div id="page2" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(9);">Om StrindbergAppen</button>
+        </form>
+    </nav>
+   <div id="outer-container">
+        <div id="container2">
+            <div id="port1" class="port">
+            <figure class="figure1">
+                    <img src="August_portrait_3.png" class="figpan" alt="Foto av August Strindberg som skriver">
+                    <figcaption class="figure-caption2">För att gilla StrindbergAppen swipea:a höger. För att ogilla StrindbergAppen swipe:a vänster.</figcaption>
+            </figure>
+                <div class="menu-container">
+                    <div class="button" onclick="panend(-200);">Ogilla!</div>
+                    <div class="button" onclick="panend(200);">Gilla!</div>
+                </div>
+            </div>
+            <div id="dialog1" class="dialog">
+                <h1>Du gillade StrindbergAppen!</h1>
+                <div class="dialog-container">
+                    <div class="button" onclick="pan(0);">Ok</div>
+                </div>
+            </div>
+            <div id="dialog2" class="dialog">
+                <h1>Du ogilla StrindbergAppen!</h1>
+                <div class="dialog-container">
+                    <div class="button" onclick="pan(0);">Ok</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="page3" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+        </form>
+    </nav>
+            <div id="touch-area">
+            <p id="rodarummetelip" class="no-ellipsis">
+                    FÖRSTA KAPITLET.
+                    
+                    Stockholm i fågelperspektiv.
+
+                    Det var en afton i början av maj. Den lilla
+                    trädgården på Mosebacke hade ännu icke blivit öppnad för
+                    allmänheten, och rabatterna voro ej uppgrävda;
+                    snödropparna hade arbetat sig upp genom fjolårets
+                    lövsamlingar och höllo just på att sluta sin korta
+                    verksamhet för att lämna plats åt de ömtåligare
+                    saffransblommorna, vilka tagit skydd under ett ofruktsamt
+                    päronträd; syrenerna väntade på sydlig vind för att
+                    få gå i blom, men lindarna bjödo ännu kärleksfilter
+                    i sina obrustna knoppar åt bofinkarna, som börjat
+                    bygga sina lavklädda bon mellan stam och gren;
+                    ännu hade ingen mänskofot trampat sandgångarna
+                    sedan sista vinterns snö gått bort, och därför levdes
+                    ett obesvärat liv därinne av både djur och blommor.
+                    Gråsparvarna höllo på att samla upp skräp, som de
+                    sedan gömde under takpannorna på navigationsskolans
+                    hus; de drogos om spillror av rakethylsor från
+                    sista höstfyrverkeriet, de plockade halmen från unga
+                    träd som året förut sluppit ur skolan på Rosendal
+                    – och allting sågo de! De hittade barège-lappar i
+                    bersåer och kunde mellan stickorna på en bänkfot
+                    draga fram hårtappar efter hundar, som icke slagits
+                    där sedan Josefinadagen i fjol. Där var ett liv och
+                    ett kiv.
+
+                    Men solen stod över Liljeholmen och sköt hela
+                    kvastar av strålar mot öster; de gingo genom rökarna
+                    från Bergsund, de ilade fram över Riddarfjärden,
+                    klättrade upp till korset på Riddarholmskyrkan,
+                    kastade sig över till Tyskans branta tak, lekte med
+                    vimplarna på skeppsbrobåtarna, illuminerade i
+                    fönstren på stora Sjötullen, eklärerade Lidingöskogarna
+                    och tonade bort i ett rosenfärgat moln, långt, långt
+                    ut i fjärran, där havet ligger. Och därifrån kom
+                    vinden, och hon gjorde samma färd tillbaka genom
+                    Vaxholm, förbi fästningen, förbi Sjötullen, utmed
+                    Siklaön, gick in bakom Hästholmen och tittade på
+                    sommarnöjena; ut igen, fortsatte och kom in i
+                    Danviken, blev skrämd och rusade av utmed södra
+                    stranden, kände lukten av kol, tjära och trän, törnade
+                    mot Stadsgården, for uppför Mosebacke, in i
+                    trädgården och slog emot en vägg. I detsamma
+                    öppnades väggen av en piga, som just rivit bort
+                    klistringen på innanfönstren; ett förfärligt os av
+                    stekflott, ölskvättar, granris och sågspån störtade ut och
+                    fördes långt bort av vinden, som nu, medan köksan
+                    drog in den friska luften genom näsan, passade på
+                    att gripa fönstervadden, som var beströdd med
+                    paljetter och berberisbär och törnrosblad, och började
+                    en ringdans utefter gångarna, i vilken snart
+                    gråsparvarna och bofinkarna deltogo, då de sålunda sågo
+                    sina bosättningsbekymmer till stor del undanröjda.
+
+                    Emellertid fortsatte köksan sitt arbete med
+                    innanfönstren, och inom några minuter hade dörren från
+                    källarsalen till verandan blivit öppnad och ut i
+                    trädgården trädde en ung herre, enkelt men fint klädd.
+                    …
+            </p>
+            <p><span id="pressElement" class="tooltipAnchor">Information om verket<span id="tooltip" class="tooltip">Texten är hämtad från boken Röda Rummet av August Strindberg, licensen är Public Domain</span></span></p>
+        </div>
+        </div>
+    <div id="page4" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(9);">Om StrindbergAppen</button>
+        </form>
+    </nav>
+    </div>
+    <div id="page5" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(9);">Om StrindbergAppen</button>
+        </form>
+    </nav>
+    </div>
+    <div id="page6" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(9);">Om StrindbergAppen</button>
+        </form>
+    </nav>
+    </div>
+    <div id="page7" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(9);">Om StrindbergAppen</button>
+        </form>
+    </nav>
+    </div>
+    <div id="page8" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">Galleri</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(9);">Om StrindbergAppen</button>
+        </form>
+    </nav>
+  <div id="container" style="width: 100%; height: 100%; touch-action: pan-y; user-select: none;">
+ 
+    <div id="pageclicker" class="clicker">
+ 
+      <div class="leftclicker" onclick="swipe(-1)">&lt;</div>
+ 
+      <div class="rightclicker" onclick="swipe(1)">&gt;</div>
+ 
+    </div>
+ 
+ 
+ 
+    <div id="swipe-page1" class="swipe-page">
+ 
+            <figure class="figure2">
+                    <img src="August_portrait_1.png" class="figure-img2" alt="Porträtt av August Strindberg">
+                    <figcaption class="figure-caption"> <a href="https://commons.wikimedia.org/wiki/File:August_Strindberg_i_sitt_arbetsrum.jpg">"Portrait of August Strindberg by Richard Bergh 1905" </a> är tagen från <a href="https://www.wikipedia.org/"> Wikipedia</a>, och licensen är Public Domain</figcaption>
+            </figure>
+ 
+    </div>
+ 
+    <div id="swipe-page2" class="swipe-page">
+ 
+
+            <figure class="figure2">
+                    <img src="August_portrait_2.png" class="figure-img2" alt="Foto av August Strindberg">
+                    <figcaption class="figure-caption"> <a href="https://www.flickr.com/photos/25300312@N08/6770866051">"Portrait of Swedish author August Strindberg"</a> är tagen från <a href="https://www.flickr.com/photos/25300312@N08/">National Library of Sweden</a>, och licensen är <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></figcaption>
+            </figure>
+ 
+    </div>
+ 
+    <div id="swipe-page3" class="swipe-page">
+ 
+            <figure class="figure2">
+                    <img src="August_portrait_3.png" class="figure-img2" alt="Foto av August Strindberg som skriver">
+                    <figcaption class="figure-caption"> <a href="https://www.flickr.com/photos/25300312@N08/6769988393">"Swedish author August Strindberg. Self-portrait in Gersau, Switzerland"</a> är tagen från <a href="https://www.flickr.com/photos/25300312@N08/">National Library of Sweden</a>, och licensen är <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></figcaption>
+            </figure>
+ 
+    </div>
+ 
+    <div id="swipe-page4" class="swipe-page">
+ 
+            <figure class="figure2">
+                    <img src="August_portrait_4.png" class="figure-img2" alt="Foto av August Strindberg vid sitt skrivbord">
+                    <figcaption class="figure-caption"> <a href="https://commons.wikimedia.org/wiki/File:August_Strindberg_i_sitt_arbetsrum.jpg"> "August Strindberg i sitt arbetsrum" </a> är tagen från <a href="https://www.wikipedia.org/"> Wikipedia</a>, och licensen är Public Domain</figcaption>
+            </figure>
+ 
+    </div>
+ 
+  </div>
+
+
+    </div>
+    <div id="page9" class="page">
+    <div class="title">StrindbergAppen</div>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <form class="form-inline">
+            <button class="btn btn-outline-primary" type="button">Om StrindbergAppen</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(1);">August Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(2);">Betygsätt Strindberg</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(3);">Röda rummet</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(4);">Mäster Olof</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(5);">Hemsöborna. Skärkarlsliv</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(6);">Tjänstekvinnans son</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(7);">En dåres försvarstal</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="showPage(8);">Galleri</button>
+        </form>
+    </nav>
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h4 class="card-title">Om StrindbergAppen</h4>
+                <p class="card-text">StrindbergAppen är skapad av Anja Stenbom, student på Högskolan i Skövde, 2020.</p>
+            <h5 class="card-subtitle mb-2">Fonter</h5>
+                <p>Fonten Roboto av Christian Robertson är hämtad från: <a href="https://fonts.google.com/specimen/Roboto?selection.family=Roboto" class="card-link">GoogleFonts</a>, licensen är <a href="http://www.apache.org/licenses/LICENSE-2.0" class="card-link">Apache License 2.0</a></p>
+                <p>Fonten Acme av Huerta Tipográfica är hämtad från <a href="https://fonts.google.com/specimen/Acme" class="card-link">GoogleFonts</a>, licensen är <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL_web" class="card-link">Open Font License</a></p>
+            <h5 class="card-subtitle mb-2">Bilder</h5>
+                <p>Bilden <a href="https://www.flickr.com/photos/25300312@N08/6769988393" class="card-link">"Swedish author August Strindberg. Self-portrait in Gersau, Switzerland"</a> är tagen från <a href="https://www.flickr.com/photos/25300312@N08/" class="card-link">National Library of Sweden</a>, licensen är <a href="https://creativecommons.org/licenses/by/2.0/" class="card-link">CC BY 2.0</a></p>
+                <p>Bilden <a href="https://commons.wikimedia.org/wiki/File:August_Strindberg_i_sitt_arbetsrum.jpg" class="card-link">"Portrait of August Strindberg by Richard Bergh 1905" </a> är tagen från <a href="https://www.wikipedia.org/" class="card-link"> Wikipedia</a>,  licensen är Public Domain</p>
+                <p>Bilden <a href="https://commons.wikimedia.org/wiki/File:August_Strindberg_i_sitt_arbetsrum.jpg" class="card-link"> "August Strindberg i sitt arbetsrum" </a> är tagen från <a href="https://www.wikipedia.org/" class="card-link"> Wikipedia</a>, licensen är Public Domain</p>
+                <p>Bilden <a href="https://www.flickr.com/photos/25300312@N08/6770866051" class="card-link">"Portrait of Swedish author August Strindberg"</a> är tagen från <a href="https://www.flickr.com/photos/25300312@N08/" class="card-link">National Library of Sweden</a>, licensen är <a href="https://creativecommons.org/licenses/by/2.0/" class="card-link">CC BY 2.0</a> </p>
+            <h5 class="card-subtitle mb-2">Texter</h5>
+                <p>Texten under fliken <button onclick="showPage(3);">Röda rummet</button> är hämtad från boken Röda Rummet av August Strindberg, licensen är Public Domain</p>
+                <p>Texten under fliken <button onclick="showPage(1);">August Strindberg</button> är hämtad från <a href="https://www.wikipedia.org/" class="card-link">Wikipedia</a>, licensen är <a href="https://creativecommons.org/licenses/by-sa/3.0/" class="card-link">CC BY-SA 3.0</a></p>
+        </div>
+    </div>
+    </div>
+  </body>
+</html>
